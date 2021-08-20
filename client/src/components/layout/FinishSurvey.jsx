@@ -6,7 +6,7 @@ const FinishSurvey = (props) => {
   const history = useHistory();
   const [link, setLink] = useState();
   useEffect(() => {
-    setLink("192.168.10.100:3000/survey/" + props.location.state.props);
+    setLink("https://surv3y-coll3ctor.herokuapp.com/survey/" + props.location.state.props);
   }, []);
   useEffect(() => {}, [link]);
   return (
