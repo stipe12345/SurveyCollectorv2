@@ -59,6 +59,8 @@ const LoggedHome = () => {
   const classes = useStyles();
   const history = useHistory();
   const [surveytitles, setSurveyTitles] = useState();
+  const [link,setLink]=useState();
+  const [linkvisibility,setLinkVisibility]=useState();
   const { userData } = useContext(UserContext);
   const [Answers, SetAnswers] = useState();
 
@@ -72,6 +74,7 @@ const LoggedHome = () => {
     fetchTitles();
   }, []);
   useEffect(() => {}, [surveytitles]);
+  useEffect(() => {}, [link]);
   const newsurvey = () => {
     history.push("/newsurvey");
   };
@@ -112,9 +115,12 @@ const LoggedHome = () => {
     return buffer;
   };
   const handlechange = async (e) => {
+    setLink("https://surv3y-coll3ctor.herokuapp.com/survey/"+e.target.value);
+    setLinkVisibility(1);
     const Survey = await axios.post("/forms/fetchsurvey", {
       FormID: e.target.value,
     });
+    
     SetAnswers(Survey.data);
   };
   return (
@@ -152,6 +158,8 @@ const LoggedHome = () => {
           </FormControl>
         </CardActions>
       </Card>
+      <Typography >{linkvisibility?("Link to survey:"+(link?(link):("loading..."))):("")}
+         </Typography>
       {Answers ? (
         Answers.Survey ? (
           <List component="nav" className={classes.list} aria-label="questions">
@@ -185,10 +193,10 @@ const LoggedHome = () => {
             })}
           </List>
         ) : (
-          <Typography>No answers yet.</Typography>
+          <Typography>{linkvisibility?("No answers yet."):("")}</Typography>
         )
       ) : (
-        <Typography>No answers yet.</Typography>
+        <Typography>{linkvisibility?("No answers yet."):("")}</Typography>
       )}
     </div>
   );

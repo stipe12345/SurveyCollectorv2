@@ -17,8 +17,10 @@ const useStyles = makeStyles({
     overflow: "hidden",
   },
   media: {
-    height: 500,
+    height: 400,
+    
   },
+
   bullet: {
     display: "inline-block",
     margin: "0 2px",
@@ -68,20 +70,20 @@ const NotLoggedHome = (props) => {
             </CardActions>
           </Card>
         </Grid>
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={4} className={classes.grid}>
           <Card className={classes.root}>
             <CardActionArea>
               <CardMedia
                 className={classes.media}
-                image="../../../logo192.png"
-                title="placeholder"
+                image="../../../Home.jpg"
+                title="Home"
               />
               <CardContent>
                 <Typography gutterBottom variant="h5" component="h2">
-                  placeholder title
+                  Create new survey
                 </Typography>
                 <Typography variant="body2" color="textSecondary" component="p">
-                  placeholder text
+                  or check up your existing surveys
                 </Typography>
               </CardContent>
             </CardActionArea>
@@ -92,15 +94,15 @@ const NotLoggedHome = (props) => {
             <CardActionArea>
               <CardMedia
                 className={classes.media}
-                image="https://www.nomadfoods.com/wp-content/uploads/2018/08/placeholder-1-e1533569576673-1200x1200.png"
+                image="../../../NewSurvey.jpg"
                 title="placeholder"
               />
               <CardContent>
                 <Typography gutterBottom variant="h5" component="h2">
-                  placeholder title
+                  New survey app
                 </Typography>
                 <Typography variant="body2" color="textSecondary" component="p">
-                  placeholder text
+                  using modern design
                 </Typography>
               </CardContent>
             </CardActionArea>
@@ -111,15 +113,15 @@ const NotLoggedHome = (props) => {
             <CardActionArea>
               <CardMedia
                 className={classes.media}
-                image="https://www.nomadfoods.com/wp-content/uploads/2018/08/placeholder-1-e1533569576673-1200x1200.png"
+                image="../../../Survey.jpg"
                 title="placeholder"
               />
               <CardContent>
                 <Typography gutterBottom variant="h5" component="h2">
-                  placeholder text
+                  Mobile supported
                 </Typography>
                 <Typography variant="body2" color="textSecondary" component="p">
-                  placeholder
+                  both IOS and Android devices
                 </Typography>
               </CardContent>
             </CardActionArea>

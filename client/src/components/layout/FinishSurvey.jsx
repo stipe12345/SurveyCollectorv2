@@ -11,7 +11,8 @@ const FinishSurvey = (props) => {
   useEffect(() => {}, [link]);
   return (
     <>
-      <Typography variant="h5">Your link:{link}</Typography>
+    <br/>
+      <Typography style={{ margin: "10px" }} variant="h5">Your link: {link}</Typography>
 
       <Button
         style={{ margin: "5px" }}
