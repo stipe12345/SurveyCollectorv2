@@ -73,8 +73,9 @@ export default function SignUp() {
         token: loginResponse.data.token,
         user: loginResponse.data.user,
       });
+      var user=JSON.stringify(loginResponse.data.user);
       localStorage.setItem("auth-token", loginResponse.data.token);
-      history.push("/");
+      localStorage.setItem("user-data",user);
     } catch (err) {
       err.response.data.msg && setError(err.response.data.msg);
     }

@@ -18,10 +18,33 @@ function App() {
     user: undefined,
   });
 
+  useEffect(()=>{
+    if(userData.user!==undefined && userData.token!==undefined)
+    {console.log(userData)
+    localStorage.setItem("auth-token",userData.token);
+    console.log(localStorage.getItem("auth-token"))
+    localStorage.setItem("user-data",JSON.stringify(userData.user));
+    console.log(localStorage.getItem("user-data"))
+    }
+  },[userData]);
   useEffect(() => {
     const checkLoggedIn = async () => {
+      var userdatabuffer=localStorage.getItem("user-data");
+      var tokenbuffer=localStorage.getItem("auth-token");
+      if(!((userdatabuffer=== undefined) ||
+      (userdatabuffer == null) || (userdatabuffer == "undefined")) && !((tokenbuffer=== undefined) ||
+      (tokenbuffer == null) || (tokenbuffer == "undefined")) )
+      {
+        setUserData({
+          user:JSON.parse(userdatabuffer),
+          token:localStorage.getItem("auth-token"),
+        })
+      }
+      else
+      {
       let token = localStorage.getItem("auth-token");
-      if (token === null) {
+      if (token === null || token=== undefined 
+       || token == "undefined") {
         localStorage.setItem("auth-token", "");
         token = "";
       }
@@ -39,6 +62,7 @@ function App() {
           user: userRes.data,
         });
       }
+    }
     };
 
     checkLoggedIn();
