@@ -39,6 +39,7 @@ export default function Header() {
       user: undefined,
     });
     localStorage.setItem("auth-token", "");
+    localStorage.setItem("user-data","");
   };
 
   return (
