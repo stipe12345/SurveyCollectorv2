@@ -15,6 +15,13 @@ module.exports = function (app) {
     })
   );
   app.use(
+    ["/forms/deleteform"],
+    createProxyMiddleware({
+      target: "http://localhost:5000",
+      changeOrigin: true,
+    })
+  );
+  app.use(
     ["/forms/submitform"],
     createProxyMiddleware({
       target: "http://localhost:5000",

@@ -60,6 +60,7 @@ const LoggedHome = () => {
   const history = useHistory();
   const [surveytitles, setSurveyTitles] = useState();
   const [link,setLink]=useState();
+  const [reload,setReload]=useState(0);
   const [linkvisibility,setLinkVisibility]=useState();
   const { userData } = useContext(UserContext);
   const [Answers, SetAnswers] = useState();
@@ -101,6 +102,7 @@ const LoggedHome = () => {
   const displayanswers = (counters, index) => {
     let buffer = "";
     counters.map((key) => {
+      if(Object.entries(key)[0][1]!=0)
       buffer +=
         Object.entries(key)[0][0] +
         ":" +
@@ -109,6 +111,12 @@ const LoggedHome = () => {
             Answers.Survey[index].ChosenAnswers.length) *
           100
         ).toFixed(2) +
+        "%\n";
+        else
+        buffer +=
+        Object.entries(key)[0][0] +
+        ":" +
+          0 +
         "%\n";
       return 0;
     });
@@ -123,6 +131,18 @@ const LoggedHome = () => {
     
     SetAnswers(Survey.data);
   };
+  const handledelete= async()=>{
+
+   const Deletion = await axios.post("/forms/deleteform",{
+    FormID:Answers.Questions[0].FormID
+   })
+   console.log(Deletion);
+   setReload(reload+1);
+   setSurveyTitles(surveytitles.filter(titles=>titles._id!==Answers.Questions[0].FormID))
+   SetAnswers(false);
+   setLink("");
+   setLinkVisibility(0);
+  }
   return (
     <div className={classes.root}>
       <Card className={classes.card}>
@@ -160,6 +180,14 @@ const LoggedHome = () => {
       </Card>
       <Typography >{linkvisibility?("Link to survey:"+(link?(link):("loading..."))):("")}
          </Typography>
+         <div>
+           {linkvisibility?(<Button 
+         variant = "outlined"
+         onClick={handledelete}
+          >
+            Delete Survey
+          </Button>):("")}
+         </div>
       {Answers ? (
         Answers.Survey ? (
           <List component="nav" className={classes.list} aria-label="questions">
