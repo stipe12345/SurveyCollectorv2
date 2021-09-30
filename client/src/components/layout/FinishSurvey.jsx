@@ -13,7 +13,6 @@ const FinishSurvey = (props) => {
     <>
     <br/>
       <Typography style={{ margin: "10px" }} variant="h5">Your link: {link}</Typography>
-
       <Button
         style={{ margin: "5px" }}
         variant="contained"

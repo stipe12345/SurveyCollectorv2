@@ -1,9 +1,14 @@
 const router = require("express").Router();
 const bcrypt = require("bcryptjs");
+const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
+const nodemailer = require('nodemailer');
+const sendgridTransport = require('nodemailer-sendgrid-transport');
 const auth = require("../middleware/auth");
 const User = require("../models/user.model");
-
+const VerifyToken=require("../models/token.model");
+const sgMail = require('@sendgrid/mail')
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 router.post("/register", async (req, res) => {
   try {
     let { email, password, passwordCheck, firstName, lastName } = req.body;
@@ -35,9 +40,35 @@ router.post("/register", async (req, res) => {
       firstname: firstName,
       lastname: lastName,
     });
-    const savedUser = await newUser.save();
+    const savedUser = await newUser.save(function(err){
+      if (err) { 
+        return res.status(500).send({msg:err.message});
+      }
+      var token = new VerifyToken({ _userId: newUser._id, token: crypto.randomBytes(16).toString('hex') });
+      token.save(function (err) {
+        if(err){
+          return res.status(500).send({msg:err.message});
+        }
+        const linkto=`http://surv3y-coll3ctor.herokuapp.com/confirmation/${email}/${token.token}`
+      const msg = {
+        to: newUser.email, // Change to your recipient
+        from: 'surv3ycoll3ctor@gmail.com', // Change to your verified sender
+        subject: 'Account Verification',
+        html: '<p>Hello '+firstName+' '+lastName+'Please verify your account by clicking link:<a href=' +linkto+ '>'+'http://surv3y-coll3ctor.herokuapp.com' + '\/confirmation\/' + email + '\/' + token.token+'</a></p>',
+      }
+      sgMail
+        .send(msg)
+        .then(() => {
+          console.log('Email sent')
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+    });
     res.json(savedUser);
-  } catch (err) {
+  })
+}
+  catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
@@ -58,6 +89,9 @@ router.post("/login", async (req, res) => {
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ msg: "Invalid credentials." });
+
+   /* if(!user.isVerified)
+    return res.status(400).json({msg:'Your Email has not been verified. Please click on resend'});*/
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
     res.json({

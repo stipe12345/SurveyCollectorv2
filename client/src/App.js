@@ -10,6 +10,7 @@ import NewSurvey from "./components/layout/NewSurvey";
 import Survey from "./components/layout/Survey";
 import FinishSurvey from "./components/layout/FinishSurvey";
 import Completed from "./components/layout/Completed";
+import Verified from "./components/layout/Verified";
 import "./App.css";
 
 function App() {
@@ -49,12 +50,12 @@ function App() {
         token = "";
       }
       const tokenResponse = await axios.post(
-        "http://localhost:5000/users/tokenIsValid",
+        "/users/tokenIsValid",
         null,
         { headers: { "x-auth-token": token } }
       );
       if (tokenResponse.data) {
-        const userRes = await axios.get("http://localhost:5000/users/", {
+        const userRes = await axios.get("/users/", {
           headers: { "x-auth-token": token },
         });
         setUserData({
@@ -80,6 +81,7 @@ function App() {
           <Route path="/survey/:id" component={Survey} />
           <Route path="/finishsurvey" component={FinishSurvey} />
           <Route path="/completed" component={Completed} />
+          <Route path="/confirmation/:email/:token" component={Verified}/>
         </Switch>
       </UserContext.Provider>
     </BrowserRouter>
