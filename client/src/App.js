@@ -11,6 +11,7 @@ import Survey from "./components/layout/Survey";
 import FinishSurvey from "./components/layout/FinishSurvey";
 import Completed from "./components/layout/Completed";
 import Verified from "./components/layout/Verified";
+import AwaitVerify from "./components/layout/AwaitVerify";
 import "./App.css";
 
 function App() {
@@ -82,6 +83,7 @@ function App() {
           <Route path="/finishsurvey" component={FinishSurvey} />
           <Route path="/completed" component={Completed} />
           <Route path="/confirmation/:email/:token" component={Verified}/>
+          <Route path="/awaitverify" component={AwaitVerify}/>
         </Switch>
       </UserContext.Provider>
     </BrowserRouter>
