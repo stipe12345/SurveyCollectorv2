@@ -64,19 +64,23 @@ export default function SignUp() {
 
     try {
       const newUser = { email, password, passwordCheck, firstName, lastName };
-      await axios.post("/users/register", newUser);
-      const loginResponse = await axios.post("/users/login", {
-        email,
-        password,
+      const registereduser=await axios.post("/users/register", newUser);
+      
+      // const loginResponse = await axios.post("/users/login", {
+      //   email,
+      //   password,
+      // });
+      // setUserData({
+      //   token: loginResponse.data.token,
+      //   user: loginResponse.data.user,
+      // });
+      // var user=JSON.stringify(loginResponse.data.user);
+      // localStorage.setItem("auth-token", loginResponse.data.token);
+      // localStorage.setItem("user-data",user);
+      history.push({
+        pathname: "/awaitverify",
+        state: { props: registereduser.data },
       });
-      setUserData({
-        token: loginResponse.data.token,
-        user: loginResponse.data.user,
-      });
-      var user=JSON.stringify(loginResponse.data.user);
-      localStorage.setItem("auth-token", loginResponse.data.token);
-      localStorage.setItem("user-data",user);
-      history.push("/");
     } catch (err) {
       err.response.data.msg && setError(err.response.data.msg);
     }

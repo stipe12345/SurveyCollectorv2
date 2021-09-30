@@ -54,7 +54,7 @@ router.post("/register", async (req, res) => {
         to: newUser.email, // Change to your recipient
         from: 'surv3ycoll3ctor@gmail.com', // Change to your verified sender
         subject: 'Account Verification',
-        html: '<p>Hello '+firstName+' '+lastName+'Please verify your account by clicking link:<a href=' +linkto+ '>'+'http://surv3y-coll3ctor.herokuapp.com' + '\/confirmation\/' + email + '\/' + token.token+'</a></p>',
+        html: '<p>Hello '+firstName+' '+lastName+', Please verify your account by clicking link:<a href=' +linkto+ '>'+'http://surv3y-coll3ctor.herokuapp.com' + '\/confirmation\/' + email + '\/' + token.token+'</a></p>',
       }
       sgMail
         .send(msg)
@@ -72,7 +72,19 @@ router.post("/register", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+router.post("/validate",async(req,res)=>{
 
+const {email}=req.body;
+const user=User.findOne({email:email});
+if(user)
+{user.isVerified=true;
+const updatedUser=await user.save();
+return res.json(updatedUser);}
+else
+return res
+        .status(500)
+        .json({ msg: "error while validating user" });
+})
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -90,8 +102,8 @@ router.post("/login", async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ msg: "Invalid credentials." });
 
-   /* if(!user.isVerified)
-    return res.status(400).json({msg:'Your Email has not been verified. Please click on resend'});*/
+    if(!user.isVerified)
+    return res.status(400).json({msg:'Your Email has not been verified. Please click on resend'});
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
     res.json({
