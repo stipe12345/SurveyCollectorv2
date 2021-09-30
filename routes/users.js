@@ -40,10 +40,7 @@ router.post("/register", async (req, res) => {
       firstname: firstName,
       lastname: lastName,
     });
-    const savedUser = await newUser.save(function(err){
-      if (err) { 
-        return res.status(500).send({msg:err.message});
-      }
+    const savedUser = await newUser.save();
       var token = new VerifyToken({ _userId: newUser._id, token: crypto.randomBytes(16).toString('hex') });
       token.save(function (err) {
         if(err){
@@ -65,8 +62,8 @@ router.post("/register", async (req, res) => {
           console.error(error)
         })
     });
+  console.log(savedUser);
     res.json(savedUser);
-  })
 }
   catch (err) {
     res.status(500).json({ error: err.message });

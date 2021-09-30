@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 const AwaitVerify=(props)=>{
+    useEffect(()=>{
+        console.log(props.location.state.props)
+    })
     const resend=()=>{
 
     }
