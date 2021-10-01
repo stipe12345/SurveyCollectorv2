@@ -78,7 +78,7 @@ router.post("/resendemail",async(req,res)=>{
   let {email}=req.body;
   console.log("im here");
   console.log(email);
-  const ResendUser=User.findOne({email:email})
+  const ResendUser=await User.findOne({email:email})
   var token = new VerifyToken({ _userId: ResendUser._id, token: crypto.randomBytes(16).toString('hex') });
       token.save(function (err) {
         if(err){
@@ -105,7 +105,8 @@ router.post("/resendemail",async(req,res)=>{
 router.post("/verify",async(req,res)=>{
 
 const {email}=req.body;
-const user=User.findOneAndUpdate({email:email},{isVerified:true})
+console.log(email);
+const user=await User.findOneAndUpdate({email:email},{isVerified:true})
 const updatedUser=await user.save();
 console.log(updatedUser);
 return res.json(updatedUser);}

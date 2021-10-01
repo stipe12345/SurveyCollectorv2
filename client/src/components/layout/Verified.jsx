@@ -8,7 +8,7 @@ useEffect(() => {
     const Fetch = async () => {
       try {
         const FetchForm = await axios.post("/users/verify", { email: email });
-        
+        console.log(FetchForm.data)
       } catch (err) {
         console.log(err.response.data.msg);
       }
