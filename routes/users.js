@@ -137,6 +137,7 @@ router.post("/login", async (req, res) => {
         id: user._id,
         displayName: user.firstname,
         isVerified:user.isVerified,
+        email:user.email,
       },
     });
   } catch (err) {

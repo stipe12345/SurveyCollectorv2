@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { useParams } from 'react-router-dom';
 const Verified=(props)=>{
 const {email}=useParams();
@@ -9,7 +10,7 @@ useEffect(() => {
         const FetchForm = await axios.post("/users/verify", { email: email });
         
       } catch (err) {
-        err.response.data.msg && setError(err.response.data.msg);
+        console.log(err.response.data.msg);
       }
     };
     Fetch();
