@@ -4,17 +4,17 @@ const Verified=(props)=>{
 const {email}=useParams();
 const {token}=useParams();
 useEffect(() => {
-   /* const Fetch = async () => {
+    const Fetch = async () => {
       try {
-        const FetchForm = await axios.post("/forms/getform", { FormID: id });
-        setSurvey(FetchForm.data);
+        const FetchForm = await axios.post("/users/verify", { email: email });
+        
       } catch (err) {
         err.response.data.msg && setError(err.response.data.msg);
       }
     };
-    Fetch();*/
+    Fetch();
   }, []);
-    return <>{email}
+    return <>Email verification completed!
     </>
 }
 export default Verified;

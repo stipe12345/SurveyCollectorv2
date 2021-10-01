@@ -12,7 +12,12 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 router.post("/register", async (req, res) => {
   try {
     let { email, password, passwordCheck, firstName, lastName } = req.body;
-
+    function validateEmail(email) {
+      const re = /\S+@\S+\.\S+/;
+      return re.test(email);
+    }
+    if(!validateEmail(email))
+    return res.status(400).json({ msg: "Not a valid email adress" });
     // validate
     if (!email || !password || !passwordCheck || !firstName || !lastName)
       return res.status(400).json({ msg: "Not all fields have been entered." });
@@ -69,7 +74,33 @@ router.post("/register", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-router.post("/validate",async(req,res)=>{
+router.post("/resendmail",async(req,res)=>{
+  let {email}=req.body;
+  const ResendUser=User.findOne({email:email})
+  var token = new VerifyToken({ _userId: ResendUser._id, token: crypto.randomBytes(16).toString('hex') });
+      token.save(function (err) {
+        if(err){
+          return res.status(500).send({msg:err.message});
+        }
+        const linkto=`http://surv3y-coll3ctor.herokuapp.com/confirmation/${email}/${token.token}`
+      const msg = {
+        to: ResendUser.email, // Change to your recipient
+        from: 'surv3ycoll3ctor@gmail.com', // Change to your verified sender
+        subject: 'Account Verification',
+        html: '<p>Hello '+ResendUser.firstname+' '+ResendUser.lastname+', Please verify your account by clicking link:<a href=' +linkto+ '>'+'http://surv3y-coll3ctor.herokuapp.com' + '\/confirmation\/' + email + '\/' + token.token+'</a></p>',
+      }
+      sgMail
+        .send(msg)
+        .then(() => {
+          console.log('Email sent')
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+    });
+
+})
+router.post("/verify",async(req,res)=>{
 
 const {email}=req.body;
 const user=User.findOne({email:email});
@@ -99,15 +130,13 @@ router.post("/login", async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ msg: "Invalid credentials." });
 
-    if(!user.isVerified)
-    return res.status(400).json({msg:'Your Email has not been verified. Please click on resend'});
-
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
     res.json({
       token,
       user: {
         id: user._id,
         displayName: user.firstname,
+        isVerified:user.isVerified,
       },
     });
   } catch (err) {
