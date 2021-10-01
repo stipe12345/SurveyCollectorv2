@@ -74,8 +74,10 @@ router.post("/register", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-router.post("/resendmail",async(req,res)=>{
+router.post("/resendemail",async(req,res)=>{
   let {email}=req.body;
+  console.log("im here");
+  console.log(email);
   const ResendUser=User.findOne({email:email})
   var token = new VerifyToken({ _userId: ResendUser._id, token: crypto.randomBytes(16).toString('hex') });
       token.save(function (err) {
@@ -103,16 +105,11 @@ router.post("/resendmail",async(req,res)=>{
 router.post("/verify",async(req,res)=>{
 
 const {email}=req.body;
-const user=User.findOne({email:email});
-if(user)
-{user.isVerified=true;
+const user=User.findOneAndUpdate({email:email},{isVerified:true})
 const updatedUser=await user.save();
+console.log(updatedUser);
 return res.json(updatedUser);}
-else
-return res
-        .status(500)
-        .json({ msg: "error while validating user" });
-})
+)
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
