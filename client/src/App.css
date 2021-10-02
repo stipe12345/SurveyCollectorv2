@@ -25,3 +25,12 @@ display:flex;
 flex-direction: column;
 justify-content: flex-end;
 }
+.verifybox
+{
+  margin: 5px;
+  padding: 5px;
+}
+.verifybox > *
+{
+ padding:10px;
+}

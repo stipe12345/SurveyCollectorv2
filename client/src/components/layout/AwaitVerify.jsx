@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import "../../App.css"
 const AwaitVerify = (props) => {
   const history = useHistory();
   const [sent, setSent] = useState(false);
@@ -15,16 +16,14 @@ const AwaitVerify = (props) => {
   return props.location.state.props.isVerified ? (
     history.push("/")
   ) : (
-    <div style="margin:2px;padding:2px;">
+    <div className="verifybox">
       <Typography>
-        You need to verify your email adress before using this website. If you
-        didnt recieve your email check your spam and unwanted folders.
+        You need to verify your email adress before using this website. 
       </Typography>
       <Typography>
-        Click on the button to resend verification mail and return to home page
+        If you didnt recieve your email check your spam and unwanted folders or click on the button to resend email.
       </Typography>
-      <Typography>{props.location.state.props.email}</Typography>
-      <Button variant="contained" color="primary" onClick={resend}>
+      <Button variant="contained" color="primary" className="verifybutton" onClick={resend}>
         Resend email
       </Button>
       <Button
