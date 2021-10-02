@@ -108,7 +108,7 @@ function NewSurvey() {
         />
         <Button
           className={classes.button}
-          variant="outlined"
+          variant="contained"
           color="primary"
           onClick={handleClickOpen}
         >

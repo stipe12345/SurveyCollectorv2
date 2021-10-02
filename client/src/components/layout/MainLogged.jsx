@@ -136,7 +136,7 @@ const LoggedHome = () => {
    const Deletion = await axios.post("/forms/deleteform",{
     FormID:Answers.Questions[0].FormID
    })
-   console.log(Deletion);
+   //console.log(Deletion);
    setReload(reload+1);
    setSurveyTitles(surveytitles.filter(titles=>titles._id!==Answers.Questions[0].FormID))
    SetAnswers(false);
@@ -180,14 +180,14 @@ const LoggedHome = () => {
       </Card>
       <Typography >{linkvisibility?("Link to survey:"+(link?(link):("loading..."))):("")}
          </Typography>
-         <div>
+         {/* <div>
            {linkvisibility?(<Button 
          variant = "outlined"
          onClick={handledelete}
           >
             Delete Survey
           </Button>):("")}
-         </div>
+         </div> */}
       {Answers ? (
         Answers.Survey ? (
           <List component="nav" className={classes.list} aria-label="questions">

@@ -23,11 +23,9 @@ function App() {
 
   useEffect(()=>{
     if(userData.user!==undefined && userData.token!==undefined)
-    {console.log(userData)
+    {
     sessionStorage.setItem("auth-token",userData.token);
-    console.log(sessionStorage.getItem("auth-token"))
     sessionStorage.setItem("user-data",JSON.stringify(userData.user));
-    console.log(sessionStorage.getItem("user-data"))
     }
   },[userData]);
   useEffect(() => {

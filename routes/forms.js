@@ -9,7 +9,6 @@ router.post("/getform", async (req, res) => {
   res.json({ Title: FindTitle.FormTitle, Questions: Questions });
 });
 router.post("/deleteform", async(req,res)=>{
-console.log(req.body.FormID);
 await Form.deleteOne({_id:req.body.FormID});
 await Question.deleteMany({FormID:req.body.FormID});
 await SurveyQuestion.deleteMany({FormID:req.body.FormID});

@@ -76,8 +76,6 @@ export default function SignUp() {
       // var user=JSON.stringify(loginResponse.data.user);
       // sessionStorage.setItem("auth-token", loginResponse.data.token);
       // sessionStorage.setItem("user-data",user);
-      console.log(registereduser)
-      console.log(registereduser.data)
       history.push({
         pathname: "/awaitverify",
         state: { props: registereduser.data },
