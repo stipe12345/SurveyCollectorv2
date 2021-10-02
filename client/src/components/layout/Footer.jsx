@@ -17,6 +17,10 @@ function Copyright() {
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    
+  },
+  appbar:{
+    height:"100%",
   },
   flexspace: {
     justifyContent: "space-between",
@@ -36,7 +40,7 @@ export default function Footer() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="static" className={classes.appbar}>
         <Toolbar className={classes.flexspace}>{Copyright()}</Toolbar>
       </AppBar>
     </div>

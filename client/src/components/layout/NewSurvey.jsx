@@ -3,7 +3,6 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 import UserContext from "../../context/userContext";
 import Button from "@material-ui/core/Button";
-import Footer from "../layout/Footer";
 import AnswerBoxes from "../questions/Answerboxes";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
