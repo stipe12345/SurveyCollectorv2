@@ -24,31 +24,31 @@ function App() {
   useEffect(()=>{
     if(userData.user!==undefined && userData.token!==undefined)
     {console.log(userData)
-    localStorage.setItem("auth-token",userData.token);
-    console.log(localStorage.getItem("auth-token"))
-    localStorage.setItem("user-data",JSON.stringify(userData.user));
-    console.log(localStorage.getItem("user-data"))
+    sessionStorage.setItem("auth-token",userData.token);
+    console.log(sessionStorage.getItem("auth-token"))
+    sessionStorage.setItem("user-data",JSON.stringify(userData.user));
+    console.log(sessionStorage.getItem("user-data"))
     }
   },[userData]);
   useEffect(() => {
     const checkLoggedIn = async () => {
-      var userdatabuffer=localStorage.getItem("user-data");
-      var tokenbuffer=localStorage.getItem("auth-token");
+      var userdatabuffer=sessionStorage.getItem("user-data");
+      var tokenbuffer=sessionStorage.getItem("auth-token");
       if(!((userdatabuffer=== undefined) ||
       (userdatabuffer == null) || (userdatabuffer == "undefined")) && !((tokenbuffer=== undefined) ||
       (tokenbuffer == null) || (tokenbuffer == "undefined")) )
       {
         setUserData({
           user:JSON.parse(userdatabuffer),
-          token:localStorage.getItem("auth-token"),
+          token:sessionStorage.getItem("auth-token"),
         })
       }
       else
       {
-      let token = localStorage.getItem("auth-token");
+      let token = sessionStorage.getItem("auth-token");
       if (token === null || token=== undefined 
        || token == "undefined") {
-        localStorage.setItem("auth-token", "");
+        sessionStorage.setItem("auth-token", "");
         token = "";
       }
       const tokenResponse = await axios.post(

@@ -74,8 +74,8 @@ export default function SignUp() {
       //   user: loginResponse.data.user,
       // });
       // var user=JSON.stringify(loginResponse.data.user);
-      // localStorage.setItem("auth-token", loginResponse.data.token);
-      // localStorage.setItem("user-data",user);
+      // sessionStorage.setItem("auth-token", loginResponse.data.token);
+      // sessionStorage.setItem("user-data",user);
       console.log(registereduser)
       console.log(registereduser.data)
       history.push({
@@ -83,7 +83,7 @@ export default function SignUp() {
         state: { props: registereduser.data },
       });
     } catch (err) {
-     // err.response.data.msg && setError(err.response.data.msg);
+      err.response.data.msg && setError(err.response.data.msg);
     }
   };
   return (

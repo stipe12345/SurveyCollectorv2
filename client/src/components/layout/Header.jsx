@@ -38,8 +38,8 @@ export default function Header() {
       token: undefined,
       user: undefined,
     });
-    localStorage.setItem("auth-token", "");
-    localStorage.setItem("user-data","");
+    sessionStorage.setItem("auth-token", "");
+    sessionStorage.setItem("user-data","");
   };
 
   return (
