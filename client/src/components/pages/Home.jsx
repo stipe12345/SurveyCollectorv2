@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import UserContext from "../../context/userContext";
-import Footer from "../layout/Footer";
+
 import NotLoggedHome from "../layout/MainNotLogged";
 import LoggedHome from "../layout/MainLogged";
 import { useHistory } from "react-router-dom";
@@ -20,7 +20,6 @@ function Home() {
           <NotLoggedHome />
         </>
       )}
-      <Footer />
     </div>
   );
 }

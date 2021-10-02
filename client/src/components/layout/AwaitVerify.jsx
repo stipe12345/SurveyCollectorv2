@@ -3,13 +3,10 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from "react-router-dom";
 const AwaitVerify=(props)=>{
     const history = useHistory();
-
-    useEffect(()=>{
-        console.log(props.location.state.props)
-    })
+    const [sent,setSent]=useEffect(false);
     const resend=async ()=>{
       await  axios.post("/users/resendemail",{email:props.location.state.props.email})
-      return <div>Email sent!</div>
+      setSent(true);
     }
 return(
     props.location.state.props.isVerified?(history.push("/")):(
@@ -18,6 +15,7 @@ return(
     <p>Click on the button to resend verification mail and return to home page</p>
     <p>{props.location.state.props.email}</p>
     <button onClick={resend}>Resend email</button>
+    {sent?(<div>Email sent!</div>):(<></>)}
     <button onClick={(()=>history.push("/"))}>Return to home page</button>
 </div>))
 }

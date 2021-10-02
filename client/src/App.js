@@ -12,6 +12,7 @@ import FinishSurvey from "./components/layout/FinishSurvey";
 import Completed from "./components/layout/Completed";
 import Verified from "./components/layout/Verified";
 import AwaitVerify from "./components/layout/AwaitVerify";
+import Footer from "./components/layout/Footer";
 import "./App.css";
 
 function App() {
@@ -71,9 +72,13 @@ function App() {
   }, []);
 
   return (
+    <div className="maincontainer">
     <BrowserRouter>
       <UserContext.Provider value={{ userData, setUserData }}>
+        <div className="header">
         <Header />
+        </div>
+        <div className="main">
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/register" component={SignUp} />
@@ -85,8 +90,13 @@ function App() {
           <Route path="/confirmation/:email/:token" component={Verified}/>
           <Route path="/awaitverify" component={AwaitVerify}/>
         </Switch>
+        </div>
+        <div className="footer">
+        <Footer/>
+        </div>
       </UserContext.Provider>
     </BrowserRouter>
+    </div>
   );
 }
 

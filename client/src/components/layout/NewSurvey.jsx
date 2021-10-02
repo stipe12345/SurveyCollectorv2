@@ -162,7 +162,7 @@ function NewSurvey() {
             </Button>
           </DialogActions>
         </Dialog>
-        <form style={{ height: "100%" }} onSubmit={handleSumbit}>
+        <form  onSubmit={handleSumbit}>
           {questionlist.length !== 0 ? (
             questionlist.map((question, index) => {
               return (
@@ -185,7 +185,7 @@ function NewSurvey() {
               );
             })
           ) : (
-            <div style={{ height: "560px" }}>Add questions</div>
+            <div >Add questions</div>
           )}
           {questionlist.length !== 0 ? (
             <Button
@@ -201,7 +201,6 @@ function NewSurvey() {
           )}
         </form>
       </div>
-      <Footer />
     </>
   );
 }
