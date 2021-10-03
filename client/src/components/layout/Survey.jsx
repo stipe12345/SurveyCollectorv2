@@ -86,7 +86,7 @@ const Survey = () => {
               <Typography variant="body2" >
                 Question {index + 1}:
               </Typography>
-              <Typography variant="header" component="h4">
+              <Typography variant="header" component="h5">
                 {question.QuestionText}
               </Typography>
               {question.QuestionType === "radio" ? (
