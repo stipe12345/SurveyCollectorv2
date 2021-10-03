@@ -13,6 +13,9 @@ const useStyles = makeStyles((theme) => ({
   button: {
     margin: theme.spacing(2),
   },
+  form:{
+    marginLeft:theme.spacing(1),
+  }
 }));
 const Survey = () => {
   const classes = useStyles();
@@ -69,7 +72,7 @@ const Survey = () => {
   };
   return survey ? (
     <>
-      <form style={{ height: "100%" }} onSubmit={handleSubmit}>
+      <form className={classes.form}  onSubmit={handleSubmit}>
         <Typography
           style={{ textAlign: "center" }}
           variant="header"
