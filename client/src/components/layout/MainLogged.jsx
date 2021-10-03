@@ -176,7 +176,7 @@ const LoggedHome = () => {
           </FormControl>
         </CardActions>
       </Card>
-      <Typography>
+      <Typography style={{marginLeft:"10px",}}>
         {linkvisibility ? "Link to survey:" + (link ? link : "loading...") : ""}
       </Typography>
       {/* <div>
