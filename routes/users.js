@@ -2,13 +2,13 @@ const router = require("express").Router();
 const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
-const nodemailer = require('nodemailer');
-const sendgridTransport = require('nodemailer-sendgrid-transport');
+const nodemailer = require("nodemailer");
+const sendgridTransport = require("nodemailer-sendgrid-transport");
 const auth = require("../middleware/auth");
 const User = require("../models/user.model");
-const VerifyToken=require("../models/token.model");
-const sgMail = require('@sendgrid/mail')
-sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+const VerifyToken = require("../models/token.model");
+const sgMail = require("@sendgrid/mail");
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 router.post("/register", async (req, res) => {
   try {
     let { email, password, passwordCheck, firstName, lastName } = req.body;
@@ -16,8 +16,8 @@ router.post("/register", async (req, res) => {
       const re = /\S+@\S+\.\S+/;
       return re.test(email);
     }
-    if(!validateEmail(email))
-    return res.status(400).json({ msg: "Not a valid email adress" });
+    if (!validateEmail(email))
+      return res.status(400).json({ msg: "Not a valid email adress" });
     // validate
     if (!email || !password || !passwordCheck || !firstName || !lastName)
       return res.status(400).json({ msg: "Not all fields have been entered." });
@@ -46,66 +46,98 @@ router.post("/register", async (req, res) => {
       lastname: lastName,
     });
     const savedUser = await newUser.save();
-      var token = new VerifyToken({ _userId: newUser._id, token: crypto.randomBytes(16).toString('hex') });
-      token.save(function (err) {
-        if(err){
-          return res.status(500).send({msg:err.message});
-        }
-        const linkto=`http://surv3y-coll3ctor.herokuapp.com/confirmation/${email}/${token.token}`
+    var token = new VerifyToken({
+      _userId: newUser._id,
+      token: crypto.randomBytes(16).toString("hex"),
+    });
+    token.save(function (err) {
+      if (err) {
+        return res.status(500).send({ msg: err.message });
+      }
+      const linkto = `http://surv3y-coll3ctor.herokuapp.com/confirmation/${email}/${token.token}`;
       const msg = {
         to: newUser.email, // Change to your recipient
-        from: 'surv3ycoll3ctor@gmail.com', // Change to your verified sender
-        subject: 'Account Verification',
-        html: '<p>Hello '+firstName+' '+lastName+', Please verify your account by clicking link:<a href=' +linkto+ '>'+'http://surv3y-coll3ctor.herokuapp.com' + '\/confirmation\/' + email + '\/' + token.token+'</a></p>',
-      }
+        from: "surv3ycoll3ctor@gmail.com", // Change to your verified sender
+        subject: "Account Verification",
+        html:
+          "<p>Hello " +
+          firstName +
+          " " +
+          lastName +
+          ", Please verify your account by clicking link:<a href=" +
+          linkto +
+          ">" +
+          "http://surv3y-coll3ctor.herokuapp.com" +
+          "/confirmation/" +
+          email +
+          "/" +
+          token.token +
+          "</a></p>",
+      };
       sgMail
         .send(msg)
         .then(() => {
-          console.log('Email sent')
+          console.log("Email sent");
         })
         .catch((error) => {
-          console.error(error)
-        })
+          console.error(error);
+        });
     });
     res.json(savedUser);
-}
-  catch (err) {
+  } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
-router.post("/resendemail",async(req,res)=>{
-  let {email}=req.body;
-  const ResendUser=await User.findOne({email:email})
-  var token = new VerifyToken({ _userId: ResendUser._id, token: crypto.randomBytes(16).toString('hex') });
-      token.save(function (err) {
-        if(err){
-          return res.status(500).send({msg:err.message});
-        }
-        const linkto=`http://surv3y-coll3ctor.herokuapp.com/confirmation/${email}/${token.token}`
-      const msg = {
-        to: ResendUser.email, // Change to your recipient
-        from: 'surv3ycoll3ctor@gmail.com', // Change to your verified sender
-        subject: 'Account Verification',
-        html: '<p>Hello '+ResendUser.firstname+' '+ResendUser.lastname+', Please verify your account by clicking link:<a href=' +linkto+ '>'+'http://surv3y-coll3ctor.herokuapp.com' + '\/confirmation\/' + email + '\/' + token.token+'</a></p>',
-      }
-      sgMail
-        .send(msg)
-        .then(() => {
-          console.log('Email sent')
-        })
-        .catch((error) => {
-          console.error(error)
-        })
-    });
-
-})
-router.post("/verify",async(req,res)=>{
-
-const {email}=req.body;
-const user=await User.findOneAndUpdate({email:email},{isVerified:true})
-const updatedUser=await user.save();
-return res.json(updatedUser);}
-)
+router.post("/resendemail", async (req, res) => {
+  let { email } = req.body;
+  const ResendUser = await User.findOne({ email: email });
+  var token = new VerifyToken({
+    _userId: ResendUser._id,
+    token: crypto.randomBytes(16).toString("hex"),
+  });
+  token.save(function (err) {
+    if (err) {
+      return res.status(500).send({ msg: err.message });
+    }
+    const linkto = `http://surv3y-coll3ctor.herokuapp.com/confirmation/${email}/${token.token}`;
+    const msg = {
+      to: ResendUser.email, // Change to your recipient
+      from: "surv3ycoll3ctor@gmail.com", // Change to your verified sender
+      subject: "Account Verification",
+      html:
+        "<p>Hello " +
+        ResendUser.firstname +
+        " " +
+        ResendUser.lastname +
+        ", Please verify your account by clicking link:<a href=" +
+        linkto +
+        ">" +
+        "http://surv3y-coll3ctor.herokuapp.com" +
+        "/confirmation/" +
+        email +
+        "/" +
+        token.token +
+        "</a></p>",
+    };
+    sgMail
+      .send(msg)
+      .then(() => {
+        console.log("Email sent");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  });
+});
+router.post("/verify", async (req, res) => {
+  const { email } = req.body;
+  const user = await User.findOneAndUpdate(
+    { email: email },
+    { isVerified: true }
+  );
+  const updatedUser = await user.save();
+  return res.json(updatedUser);
+});
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -129,8 +161,8 @@ router.post("/login", async (req, res) => {
       user: {
         id: user._id,
         displayName: user.firstname,
-        isVerified:user.isVerified,
-        email:user.email,
+        isVerified: user.isVerified,
+        email: user.email,
       },
     });
   } catch (err) {

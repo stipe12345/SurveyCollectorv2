@@ -68,9 +68,9 @@ const Radio = (props) => {
             return <div>{answerlist}</div>;
           })
         : getanswerboxes()}
-      <Button variant="contained"
-              color="primary"
-              onClick={handleinput}>Confirm answers</Button>
+      <Button variant="contained" color="primary" onClick={handleinput}>
+        Confirm answers
+      </Button>
     </>
   );
 };

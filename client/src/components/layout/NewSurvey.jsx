@@ -161,7 +161,7 @@ function NewSurvey() {
             </Button>
           </DialogActions>
         </Dialog>
-        <form  onSubmit={handleSumbit}>
+        <form onSubmit={handleSumbit}>
           {questionlist.length !== 0 ? (
             questionlist.map((question, index) => {
               return (
@@ -184,7 +184,7 @@ function NewSurvey() {
               );
             })
           ) : (
-            <div >Add questions</div>
+            <div>Add questions</div>
           )}
           {questionlist.length !== 0 ? (
             <Button

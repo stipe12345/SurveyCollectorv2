@@ -17,10 +17,9 @@ function Copyright() {
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    
   },
-  appbar:{
-    height:"100%",
+  appbar: {
+    height: "100%",
   },
   flexspace: {
     justifyContent: "space-between",

@@ -1,36 +1,30 @@
 .App {
   text-align: center;
 }
-.maincontainer
-{
-  display:grid;
-  height:100vh;
+.maincontainer {
+  display: grid;
+  height: 100vh;
   grid-template-rows: 1fr 8fr 1fr;
 }
-.header
-{
+.header {
   grid-row-start: 1;
-  grid-row-end:2;
+  grid-row-end: 2;
 }
-.main
-{
-grid-row-start: 2;
-grid-row-end: 3;
+.main {
+  grid-row-start: 2;
+  grid-row-end: 3;
 }
-.footer
-{
-grid-row-start: 3;
-grid-row-end: 4;
-display:flex;
-flex-direction: column;
-justify-content: flex-end;
+.footer {
+  grid-row-start: 3;
+  grid-row-end: 4;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
-.verifybox
-{
+.verifybox {
   margin: 5px;
   padding: 5px;
 }
-.verifybox > *
-{
- padding:10px;
+.verifybox > * {
+  padding: 10px;
 }

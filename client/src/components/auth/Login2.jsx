@@ -65,9 +65,9 @@ export default function SignIn() {
         token: loginResponse.data.token,
         user: loginResponse.data.user,
       });
-      var user=JSON.stringify(loginResponse.data.user);
+      var user = JSON.stringify(loginResponse.data.user);
       sessionStorage.setItem("auth-token", loginResponse.data.token);
-      sessionStorage.setItem("user-data",user);
+      sessionStorage.setItem("user-data", user);
       history.push("/");
     } catch (err) {
       err.response.data.msg && setError(err.response.data.msg);
@@ -129,7 +129,6 @@ export default function SignIn() {
           </Grid>
         </form>
       </div>
-      
     </Container>
   );
 }

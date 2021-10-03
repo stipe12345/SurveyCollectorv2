@@ -59,9 +59,9 @@ const LoggedHome = () => {
   const classes = useStyles();
   const history = useHistory();
   const [surveytitles, setSurveyTitles] = useState();
-  const [link,setLink]=useState();
-  const [reload,setReload]=useState(0);
-  const [linkvisibility,setLinkVisibility]=useState();
+  const [link, setLink] = useState();
+  const [reload, setReload] = useState(0);
+  const [linkvisibility, setLinkVisibility] = useState();
   const { userData } = useContext(UserContext);
   const [Answers, SetAnswers] = useState();
 
@@ -102,47 +102,45 @@ const LoggedHome = () => {
   const displayanswers = (counters, index) => {
     let buffer = "";
     counters.map((key) => {
-      if(Object.entries(key)[0][1]!=0)
-      buffer +=
-        Object.entries(key)[0][0] +
-        ":" +
-        (
-          (Object.entries(key)[0][1] /
-            Answers.Survey[index].ChosenAnswers.length) *
-          100
-        ).toFixed(2) +
-        "%\n";
-        else
+      if (Object.entries(key)[0][1] != 0)
         buffer +=
-        Object.entries(key)[0][0] +
-        ":" +
-          0 +
-        "%\n";
+          Object.entries(key)[0][0] +
+          ":" +
+          (
+            (Object.entries(key)[0][1] /
+              Answers.Survey[index].ChosenAnswers.length) *
+            100
+          ).toFixed(2) +
+          "%\n";
+      else buffer += Object.entries(key)[0][0] + ":" + 0 + "%\n";
       return 0;
     });
     return buffer;
   };
   const handlechange = async (e) => {
-    setLink("https://surv3y-coll3ctor.herokuapp.com/survey/"+e.target.value);
+    setLink("https://surv3y-coll3ctor.herokuapp.com/survey/" + e.target.value);
     setLinkVisibility(1);
     const Survey = await axios.post("/forms/fetchsurvey", {
       FormID: e.target.value,
     });
-    
+
     SetAnswers(Survey.data);
   };
-  const handledelete= async()=>{
-
-   const Deletion = await axios.post("/forms/deleteform",{
-    FormID:Answers.Questions[0].FormID
-   })
-   //console.log(Deletion);
-   setReload(reload+1);
-   setSurveyTitles(surveytitles.filter(titles=>titles._id!==Answers.Questions[0].FormID))
-   SetAnswers(false);
-   setLink("");
-   setLinkVisibility(0);
-  }
+  const handledelete = async () => {
+    const Deletion = await axios.post("/forms/deleteform", {
+      FormID: Answers.Questions[0].FormID,
+    });
+    //console.log(Deletion);
+    setReload(reload + 1);
+    setSurveyTitles(
+      surveytitles.filter(
+        (titles) => titles._id !== Answers.Questions[0].FormID
+      )
+    );
+    SetAnswers(false);
+    setLink("");
+    setLinkVisibility(0);
+  };
   return (
     <div className={classes.root}>
       <Card className={classes.card}>
@@ -178,9 +176,10 @@ const LoggedHome = () => {
           </FormControl>
         </CardActions>
       </Card>
-      <Typography >{linkvisibility?("Link to survey:"+(link?(link):("loading..."))):("")}
-         </Typography>
-         {/* <div>
+      <Typography>
+        {linkvisibility ? "Link to survey:" + (link ? link : "loading...") : ""}
+      </Typography>
+      {/* <div>
            {linkvisibility?(<Button 
          variant = "outlined"
          onClick={handledelete}
@@ -221,10 +220,10 @@ const LoggedHome = () => {
             })}
           </List>
         ) : (
-          <Typography>{linkvisibility?("No answers yet."):("")}</Typography>
+          <Typography>{linkvisibility ? "No answers yet." : ""}</Typography>
         )
       ) : (
-        <Typography>{linkvisibility?("No answers yet."):("")}</Typography>
+        <Typography>{linkvisibility ? "No answers yet." : ""}</Typography>
       )}
     </div>
   );

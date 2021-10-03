@@ -18,7 +18,6 @@ const useStyles = makeStyles({
   },
   media: {
     height: 400,
-    
   },
 
   bullet: {

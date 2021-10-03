@@ -21,49 +21,51 @@ function App() {
     user: undefined,
   });
 
-  useEffect(()=>{
-    if(userData.user!==undefined && userData.token!==undefined)
-    {
-    sessionStorage.setItem("auth-token",userData.token);
-    sessionStorage.setItem("user-data",JSON.stringify(userData.user));
+  useEffect(() => {
+    if (userData.user !== undefined && userData.token !== undefined) {
+      sessionStorage.setItem("auth-token", userData.token);
+      sessionStorage.setItem("user-data", JSON.stringify(userData.user));
     }
-  },[userData]);
+  }, [userData]);
   useEffect(() => {
     const checkLoggedIn = async () => {
-      var userdatabuffer=sessionStorage.getItem("user-data");
-      var tokenbuffer=sessionStorage.getItem("auth-token");
-      if(!((userdatabuffer=== undefined) ||
-      (userdatabuffer == null) || (userdatabuffer == "undefined")) && !((tokenbuffer=== undefined) ||
-      (tokenbuffer == null) || (tokenbuffer == "undefined")) )
-      {
+      var userdatabuffer = sessionStorage.getItem("user-data");
+      var tokenbuffer = sessionStorage.getItem("auth-token");
+      if (
+        !(
+          userdatabuffer === undefined ||
+          userdatabuffer == null ||
+          userdatabuffer == "undefined"
+        ) &&
+        !(
+          tokenbuffer === undefined ||
+          tokenbuffer == null ||
+          tokenbuffer == "undefined"
+        )
+      ) {
         setUserData({
-          user:JSON.parse(userdatabuffer),
-          token:sessionStorage.getItem("auth-token"),
-        })
-      }
-      else
-      {
-      let token = sessionStorage.getItem("auth-token");
-      if (token === null || token=== undefined 
-       || token == "undefined") {
-        sessionStorage.setItem("auth-token", "");
-        token = "";
-      }
-      const tokenResponse = await axios.post(
-        "/users/tokenIsValid",
-        null,
-        { headers: { "x-auth-token": token } }
-      );
-      if (tokenResponse.data) {
-        const userRes = await axios.get("/users/", {
+          user: JSON.parse(userdatabuffer),
+          token: sessionStorage.getItem("auth-token"),
+        });
+      } else {
+        let token = sessionStorage.getItem("auth-token");
+        if (token === null || token === undefined || token == "undefined") {
+          sessionStorage.setItem("auth-token", "");
+          token = "";
+        }
+        const tokenResponse = await axios.post("/users/tokenIsValid", null, {
           headers: { "x-auth-token": token },
         });
-        setUserData({
-          token,
-          user: userRes.data,
-        });
+        if (tokenResponse.data) {
+          const userRes = await axios.get("/users/", {
+            headers: { "x-auth-token": token },
+          });
+          setUserData({
+            token,
+            user: userRes.data,
+          });
+        }
       }
-    }
     };
 
     checkLoggedIn();
@@ -71,29 +73,29 @@ function App() {
 
   return (
     <div className="maincontainer">
-    <BrowserRouter>
-      <UserContext.Provider value={{ userData, setUserData }}>
-        <div className="header">
-        <Header />
-        </div>
-        <div className="main">
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/register" component={SignUp} />
-          <Route path="/login" component={SignIn} />
-          <Route path="/newsurvey" component={NewSurvey} />
-          <Route path="/survey/:id" component={Survey} />
-          <Route path="/finishsurvey" component={FinishSurvey} />
-          <Route path="/completed" component={Completed} />
-          <Route path="/confirmation/:email/:token" component={Verified}/>
-          <Route path="/awaitverify" component={AwaitVerify}/>
-        </Switch>
-        </div>
-        <div className="footer">
-        <Footer/>
-        </div>
-      </UserContext.Provider>
-    </BrowserRouter>
+      <BrowserRouter>
+        <UserContext.Provider value={{ userData, setUserData }}>
+          <div className="header">
+            <Header />
+          </div>
+          <div className="main">
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route path="/register" component={SignUp} />
+              <Route path="/login" component={SignIn} />
+              <Route path="/newsurvey" component={NewSurvey} />
+              <Route path="/survey/:id" component={Survey} />
+              <Route path="/finishsurvey" component={FinishSurvey} />
+              <Route path="/completed" component={Completed} />
+              <Route path="/confirmation/:email/:token" component={Verified} />
+              <Route path="/awaitverify" component={AwaitVerify} />
+            </Switch>
+          </div>
+          <div className="footer">
+            <Footer />
+          </div>
+        </UserContext.Provider>
+      </BrowserRouter>
     </div>
   );
 }

@@ -63,8 +63,8 @@ export default function SignUp() {
 
     try {
       const newUser = { email, password, passwordCheck, firstName, lastName };
-      const registereduser=await axios.post("/users/register", newUser);
-      
+      const registereduser = await axios.post("/users/register", newUser);
+
       // const loginResponse = await axios.post("/users/login", {
       //   email,
       //   password,
@@ -181,7 +181,6 @@ export default function SignUp() {
           </Grid>
         </form>
       </div>
-      
     </Container>
   );
 }

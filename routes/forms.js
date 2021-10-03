@@ -8,45 +8,40 @@ router.post("/getform", async (req, res) => {
   const Questions = await Question.find({ FormID: req.body.FormID });
   res.json({ Title: FindTitle.FormTitle, Questions: Questions });
 });
-router.post("/deleteform", async(req,res)=>{
-await Form.deleteOne({_id:req.body.FormID});
-await Question.deleteMany({FormID:req.body.FormID});
-await SurveyQuestion.deleteMany({FormID:req.body.FormID});
-
-
-})
+router.post("/deleteform", async (req, res) => {
+  await Form.deleteOne({ _id: req.body.FormID });
+  await Question.deleteMany({ FormID: req.body.FormID });
+  await SurveyQuestion.deleteMany({ FormID: req.body.FormID });
+});
 router.post("/submitform", async (req, res) => {
   for (const question of req.body.Survey.Questions) {
-    if(question.Answers[0]!==undefined)
-    {
-    let existingQuestion = await SurveyQuestion.findOne({
-      QuestionID: question._id,
-    });
-    if (!existingQuestion) {
-      let newQuestion = new SurveyQuestion({
-        FormID: question.FormID,
+    if (question.Answers[0] !== undefined) {
+      let existingQuestion = await SurveyQuestion.findOne({
         QuestionID: question._id,
-        ChosenAnswers: question.Answers,
       });
-      await newQuestion.save();
+      if (!existingQuestion) {
+        let newQuestion = new SurveyQuestion({
+          FormID: question.FormID,
+          QuestionID: question._id,
+          ChosenAnswers: question.Answers,
+        });
+        await newQuestion.save();
+      } else {
+        existingQuestion.ChosenAnswers.push(question.Answers[0]);
+        await existingQuestion.save();
+      }
     } else {
-      existingQuestion.ChosenAnswers.push(question.Answers[0]);
-      await existingQuestion.save();
-    }
-  }
-  else
-  {
-    let existingQuestion = await SurveyQuestion.findOne({
-      QuestionID: question._id,
-    });
-    if (!existingQuestion) {
-      let newQuestion = new SurveyQuestion({
-        FormID: question.FormID,
+      let existingQuestion = await SurveyQuestion.findOne({
         QuestionID: question._id,
-        ChosenAnswers: [],
       });
-      await newQuestion.save();
-    }
+      if (!existingQuestion) {
+        let newQuestion = new SurveyQuestion({
+          FormID: question.FormID,
+          QuestionID: question._id,
+          ChosenAnswers: [],
+        });
+        await newQuestion.save();
+      }
     }
   }
   res.send("COMPLETED");

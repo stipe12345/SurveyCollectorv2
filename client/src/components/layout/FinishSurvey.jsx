@@ -6,13 +6,18 @@ const FinishSurvey = (props) => {
   const history = useHistory();
   const [link, setLink] = useState();
   useEffect(() => {
-    setLink("https://surv3y-coll3ctor.herokuapp.com/survey/" + props.location.state.props);
+    setLink(
+      "https://surv3y-coll3ctor.herokuapp.com/survey/" +
+        props.location.state.props
+    );
   }, []);
   useEffect(() => {}, [link]);
   return (
     <>
-    <br/>
-      <Typography style={{ margin: "10px" }} variant="h5">Your link: {link}</Typography>
+      <br />
+      <Typography style={{ margin: "10px" }} variant="h5">
+        Your link: {link}
+      </Typography>
       <Button
         style={{ margin: "5px" }}
         variant="contained"

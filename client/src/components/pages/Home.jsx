@@ -5,16 +5,19 @@ import NotLoggedHome from "../layout/MainNotLogged";
 import LoggedHome from "../layout/MainLogged";
 import { useHistory } from "react-router-dom";
 function Home() {
-  const history=useHistory();
+  const history = useHistory();
   const { userData } = useContext(UserContext);
   return (
     <div>
       {userData.user ? (
-        userData.user.isVerified?(<LoggedHome />):(
+        userData.user.isVerified ? (
+          <LoggedHome />
+        ) : (
           history.push({
             pathname: "/awaitverify",
-            state: { props: userData.user},
-          }))
+            state: { props: userData.user },
+          })
+        )
       ) : (
         <>
           <NotLoggedHome />

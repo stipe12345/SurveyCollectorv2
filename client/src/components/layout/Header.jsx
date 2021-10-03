@@ -39,7 +39,7 @@ export default function Header() {
       user: undefined,
     });
     sessionStorage.setItem("auth-token", "");
-    sessionStorage.setItem("user-data","");
+    sessionStorage.setItem("user-data", "");
   };
 
   return (
