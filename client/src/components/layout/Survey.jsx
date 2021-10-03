@@ -83,10 +83,10 @@ const Survey = () => {
         {survey.Questions.map((question, index) => {
           return (
             <div>
-              <Typography variant="body2" component="h6">
+              <Typography variant="body2" >
                 Question {index + 1}:
               </Typography>
-              <Typography variant="body2" component="h4">
+              <Typography variant="header" component="h4">
                 {question.QuestionText}
               </Typography>
               {question.QuestionType === "radio" ? (
